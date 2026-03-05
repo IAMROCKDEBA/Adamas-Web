@@ -1,0 +1,2386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>40-Hour IoT Full Stack Development Course | Adamas University</title>
+    <meta
+      name="description"
+      content="An intensive 40-hour IoT Full Stack Development course featuring ESP32, REST APIs, Kafka, MongoDB, Docker, and Cloud Deployment at Adamas University."
+    />
+    <style>
+      /* ========================================
+       CSS CUSTOM PROPERTIES — Oxford Night
+       ======================================== */
+      :root {
+        /* Primary Palette */
+        --color-deep-navy: #0a1628;
+        --color-navy-mid: #0f1f3a;
+        --color-navy-light: #152a4a;
+        --color-antique-gold: #c9a84c;
+        --color-gold-light: #ddc06a;
+        --color-gold-dim: rgba(201, 168, 76, 0.15);
+        --color-ivory: #ffffff;
+        --color-ivory-warm: #fafafa;
+        --color-platinum: #e8e4dc;
+        --color-platinum-dark: #d4cfc6;
+
+        /* Text Colors */
+        --text-primary: #1a1a2e;
+        --text-secondary: #4a4a5a;
+        --text-muted: #7a7a8a;
+        --text-on-dark: #f5f0e8;
+        --text-on-dark-muted: rgba(245, 240, 232, 0.7);
+
+        /* Utility */
+        --shadow-card: 0 4px 24px rgba(10, 22, 40, 0.08);
+        --shadow-card-hover: 0 12px 40px rgba(10, 22, 40, 0.15);
+        --shadow-nav: 0 2px 20px rgba(10, 22, 40, 0.12);
+        --border-subtle: rgba(201, 168, 76, 0.2);
+        --glass-bg: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(201, 168, 76, 0.15);
+        --radius-sm: 6px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-full: 50%;
+
+        /* Typography */
+        --font-display: "Arial", Helvetica, sans-serif;
+        --font-body: "Arial", Helvetica, sans-serif;
+
+        /* Spacing */
+        --space-xs: 0.5rem;
+        --space-sm: 1rem;
+        --space-md: 2rem;
+        --space-lg: 4rem;
+        --space-xl: 6rem;
+        --space-2xl: 8rem;
+
+        /* Transitions */
+        --ease-premium: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --transition-smooth: 0.35s var(--ease-premium);
+      }
+
+      /* ========================================
+       DARK MODE OVERRIDES
+       ======================================== */
+      [data-theme="dark"] {
+        --color-deep-navy: #0a1628;
+        --color-navy-mid: #0f1f3a;
+        --color-navy-light: #152a4a;
+        --color-ivory: #111827;
+        --color-ivory-warm: #1a2332;
+        --color-platinum: #2a3444;
+        --color-platinum-dark: #374151;
+
+        --text-primary: #e5e7eb;
+        --text-secondary: #9ca3af;
+        --text-muted: #6b7280;
+        --text-on-dark: #f5f0e8;
+        --text-on-dark-muted: rgba(245, 240, 232, 0.7);
+
+        --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+        --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        --shadow-nav: 0 2px 20px rgba(0, 0, 0, 0.4);
+        --glass-bg: rgba(30, 41, 59, 0.85);
+        --glass-border: rgba(201, 168, 76, 0.2);
+        --border-subtle: rgba(201, 168, 76, 0.25);
+      }
+
+      /* Body & Page Background */
+      [data-theme="dark"] body {
+        background-color: #111827;
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] body::before {
+        background:
+          radial-gradient(
+            ellipse at 20% 0%,
+            rgba(201, 168, 76, 0.04) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 100%,
+            rgba(201, 168, 76, 0.03) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Navbar */
+      [data-theme="dark"] .navbar {
+        background: rgba(17, 24, 39, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+
+      [data-theme="dark"] .navbar.scrolled {
+        background: rgba(17, 24, 39, 0.98);
+      }
+
+      [data-theme="dark"] .navbar__links a {
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] .navbar__toggle span {
+        background: #e5e7eb;
+      }
+
+      /* All Sections */
+      [data-theme="dark"] .section {
+        background: #111827;
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] .section--alt {
+        background: #1a2332;
+      }
+
+      [data-theme="dark"] .section--dark {
+        background: #0a1628;
+        color: #f5f0e8;
+      }
+
+      /* Section Titles & Descriptions */
+      [data-theme="dark"] .section__title {
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] .section__description {
+        color: #9ca3af;
+      }
+
+      [data-theme="dark"] .section--dark .section__title {
+        color: #f5f0e8;
+      }
+
+      [data-theme="dark"] .section--dark .section__description {
+        color: rgba(245, 240, 232, 0.7);
+      }
+
+      /* Ornaments */
+      [data-theme="dark"] .ornament {
+        color: var(--color-antique-gold);
+        background: #111827;
+      }
+
+      [data-theme="dark"] .ornament::before,
+      [data-theme="dark"] .ornament::after {
+        background: var(--color-antique-gold);
+      }
+
+      /* About Cards */
+      [data-theme="dark"] .about-card {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(201, 168, 76, 0.2);
+      }
+
+      [data-theme="dark"] .about-card__title {
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] .about-card__text {
+        color: #9ca3af;
+      }
+
+      /* Person Cards (light sections) */
+      [data-theme="dark"] .person-card {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(201, 168, 76, 0.2);
+      }
+
+      [data-theme="dark"] .person-card__name {
+        color: #e5e7eb;
+      }
+
+      [data-theme="dark"] .person-card__title {
+        color: #9ca3af;
+      }
+
+      /* Outcome Items */
+      [data-theme="dark"] .outcome-item {
+        background: rgba(30, 41, 59, 0.85);
+        border-color: rgba(201, 168, 76, 0.2);
+      }
+
+      [data-theme="dark"] .outcome-item__text {
+        color: #9ca3af;
+      }
+
+      /* Subsection Headings */
+      [data-theme="dark"] .subsection-heading__title {
+        color: #e5e7eb;
+      }
+
+      /* Footer */
+      [data-theme="dark"] .footer {
+        background: #0a1628;
+      }
+
+      @media (max-width: 768px) {
+        [data-theme="dark"] .navbar__links {
+          background: rgba(17, 24, 39, 0.98);
+          border-bottom-color: rgba(255, 255, 255, 0.08);
+        }
+      }
+
+      /* ========================================
+       THEME TOGGLE BUTTONS (Sun / Moon)
+       ======================================== */
+      .theme-switcher {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: var(--color-gold-dim);
+        border: 1.5px solid var(--color-antique-gold);
+        border-radius: 50px;
+        padding: 3px;
+        flex-shrink: 0;
+      }
+
+      .theme-btn {
+        background: none;
+        border: none;
+        border-radius: var(--radius-full);
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 0;
+        transition:
+          background var(--transition-smooth),
+          transform var(--transition-smooth);
+      }
+
+      .theme-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .theme-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--color-antique-gold);
+        opacity: 0.5;
+        transition:
+          fill var(--transition-smooth),
+          opacity var(--transition-smooth);
+      }
+
+      .theme-btn.active {
+        background: var(--color-antique-gold);
+      }
+
+      .theme-btn.active svg {
+        fill: #0a1628;
+        opacity: 1;
+      }
+
+      /* ========================================
+       RESET & BASE
+       ======================================== */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+        color-scheme: light;
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+      }
+
+      body {
+        font-family: var(--font-body);
+        color: var(--text-primary);
+        background-color: var(--color-ivory);
+        line-height: 1.7;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition:
+          background-color var(--transition-smooth),
+          color var(--transition-smooth);
+      }
+
+      /* Subtle page background texture */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse at 20% 0%,
+            rgba(201, 168, 76, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 100%,
+            rgba(10, 22, 40, 0.04) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Noise texture overlay */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        background-size: 256px 256px;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      a {
+        color: var(--color-antique-gold);
+        text-decoration: none;
+        transition: color var(--transition-smooth);
+      }
+
+      a:hover {
+        color: var(--color-gold-light);
+      }
+
+      /* Page load animation */
+      @keyframes pageReveal {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .page-wrapper {
+        position: relative;
+        z-index: 1;
+        animation: pageReveal 0.6s var(--ease-premium) both;
+      }
+
+      /* ========================================
+       NAVBAR
+       ======================================== */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        transition:
+          background var(--transition-smooth),
+          box-shadow var(--transition-smooth),
+          border-color var(--transition-smooth);
+      }
+
+      .navbar.scrolled {
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: var(--shadow-nav);
+      }
+
+      .navbar__inner {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 0 var(--space-md);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 76px;
+      }
+
+      .navbar__logo {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        flex-shrink: 0;
+      }
+
+      .navbar__logo img {
+        height: 65px;
+        width: auto;
+        object-fit: contain;
+        filter: brightness(1.05);
+      }
+
+      .navbar__links {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        list-style: none;
+      }
+
+      .navbar__links a {
+        color: var(--color-deep-navy);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: color var(--transition-smooth);
+      }
+
+      .navbar__links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1.5px;
+        background: var(--color-antique-gold);
+        transition: width var(--transition-smooth);
+      }
+
+      .navbar__links a:hover {
+        color: var(--color-antique-gold);
+      }
+
+      .navbar__links a:hover::after {
+        width: 100%;
+      }
+
+      /* Mobile menu toggle */
+      .navbar__toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .navbar__toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--color-deep-navy);
+        margin: 5px 0;
+        transition: var(--transition-smooth);
+        border-radius: 2px;
+      }
+
+      /* ========================================
+       HERO SECTION
+       ======================================== */
+      .hero {
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: calc(76px + var(--space-xl)) var(--space-md) var(--space-xl);
+        background: linear-gradient(
+          180deg,
+          var(--color-deep-navy) 0%,
+          var(--color-navy-mid) 60%,
+          var(--color-navy-light) 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(
+            ellipse at 30% 20%,
+            rgba(201, 168, 76, 0.08) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 70% 80%,
+            rgba(201, 168, 76, 0.05) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+
+      /* Decorative geometric lines */
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        border: 1px solid rgba(201, 168, 76, 0.06);
+        border-radius: var(--radius-full);
+        pointer-events: none;
+      }
+
+      .hero__content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+      }
+
+      .hero__eyebrow {
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-antique-gold);
+        margin-bottom: var(--space-sm);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .hero__eyebrow::before,
+      .hero__eyebrow::after {
+        content: "";
+        width: 40px;
+        height: 1px;
+        background: var(--color-antique-gold);
+        opacity: 0.5;
+      }
+
+      .hero__title {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 3.8rem);
+        font-weight: 700;
+        color: var(--text-on-dark);
+        line-height: 1.15;
+        letter-spacing: 0.03em;
+        margin-bottom: var(--space-sm);
+      }
+
+      .hero__title span {
+        color: var(--color-antique-gold);
+        font-style: italic;
+      }
+
+      .hero__subtitle {
+        font-family: var(--font-body);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: var(--text-on-dark-muted);
+        font-weight: 400;
+        line-height: 1.7;
+        max-width: 680px;
+        margin: 0 auto var(--space-md);
+      }
+
+      .hero__meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-sm) var(--space-md);
+        margin-top: var(--space-md);
+      }
+
+      .hero__meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-on-dark-muted);
+        font-weight: 400;
+      }
+
+      .hero__meta-item svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--color-antique-gold);
+        flex-shrink: 0;
+      }
+
+      .hero__rule {
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-antique-gold),
+          transparent
+        );
+        border: none;
+        margin: var(--space-md) auto 0;
+      }
+
+      /* ========================================
+       SECTION COMMON STYLES
+       ======================================== */
+      .section {
+        padding: var(--space-xl) var(--space-md);
+        position: relative;
+        scroll-margin-top: 80px;
+        background-color: var(--color-ivory);
+        color: var(--text-primary);
+        transition:
+          background-color var(--transition-smooth),
+          color var(--transition-smooth);
+      }
+
+      .section--dark {
+        background: var(--color-deep-navy);
+        color: var(--text-on-dark);
+      }
+
+      .section--alt {
+        background-color: var(--color-ivory-warm);
+      }
+
+      .section__container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section__header {
+        text-align: center;
+        margin-bottom: var(--space-lg);
+      }
+
+      .section__eyebrow {
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-antique-gold);
+        margin-bottom: var(--space-xs);
+      }
+
+      .section__title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        line-height: 1.2;
+        margin-bottom: var(--space-sm);
+        transition: color var(--transition-smooth);
+      }
+
+      .section--dark .section__title {
+        color: var(--text-on-dark);
+      }
+
+      .section__divider {
+        width: 60px;
+        height: 2px;
+        background: var(--color-antique-gold);
+        border: none;
+        margin: 0 auto;
+      }
+
+      .section__description {
+        max-width: 700px;
+        margin: var(--space-sm) auto 0;
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        text-align: center;
+        line-height: 1.8;
+        transition: color var(--transition-smooth);
+      }
+
+      .section--dark .section__description {
+        color: var(--text-on-dark-muted);
+      }
+
+      /* Ornamental section divider between sections */
+      .ornament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: var(--space-md) 0;
+        color: var(--color-antique-gold);
+        font-size: 0.75rem;
+        opacity: 0.5;
+        background-color: var(--color-ivory);
+        transition: background-color var(--transition-smooth);
+      }
+
+      .ornament::before,
+      .ornament::after {
+        content: "";
+        width: 80px;
+        height: 1px;
+        background: var(--color-antique-gold);
+      }
+
+      /* ========================================
+       ABOUT / OVERVIEW
+       ======================================== */
+      .about-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--space-md);
+        margin-top: var(--space-md);
+      }
+
+      .about-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        box-shadow: var(--shadow-card);
+        transition:
+          transform var(--transition-smooth),
+          box-shadow var(--transition-smooth),
+          background var(--transition-smooth),
+          border-color var(--transition-smooth);
+      }
+
+      .about-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-card-hover);
+      }
+
+      .about-card__icon {
+        width: 48px;
+        height: 48px;
+        background: var(--color-gold-dim);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--space-sm);
+      }
+
+      .about-card__icon svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--color-antique-gold);
+      }
+
+      .about-card__title {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-bottom: var(--space-xs);
+      }
+
+      .about-card__text {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* ========================================
+       CURRICULUM / WEEKLY SECTIONS
+       ======================================== */
+      .curriculum-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: var(--space-md);
+      }
+
+      .week-card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(201, 168, 76, 0.12);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        transition:
+          transform var(--transition-smooth),
+          box-shadow var(--transition-smooth),
+          border-color var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .week-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--color-antique-gold);
+        opacity: 0.4;
+        transition: opacity var(--transition-smooth);
+      }
+
+      .week-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(201, 168, 76, 0.3);
+        box-shadow: 0 8px 32px rgba(201, 168, 76, 0.08);
+      }
+
+      .week-card:hover::before {
+        opacity: 1;
+      }
+
+      .week-card__number {
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--color-antique-gold);
+        margin-bottom: 0.25rem;
+      }
+
+      .week-card__title {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        color: var(--text-on-dark);
+        margin-bottom: var(--space-sm);
+      }
+
+      .week-card__list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .week-card__list li {
+        font-size: 0.9rem;
+        color: var(--text-on-dark-muted);
+        padding-left: 1.25rem;
+        position: relative;
+        line-height: 1.6;
+      }
+
+      .week-card__list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 6px;
+        height: 6px;
+        border: 1px solid var(--color-antique-gold);
+        border-radius: var(--radius-full);
+      }
+
+      .week-card__hands-on {
+        margin-top: var(--space-sm);
+        padding-top: var(--space-sm);
+        border-top: 1px solid rgba(201, 168, 76, 0.12);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-antique-gold);
+        letter-spacing: 0.05em;
+      }
+
+      /* ========================================
+       LEARNING OUTCOMES
+       ======================================== */
+      .outcomes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--space-sm);
+      }
+
+      .outcome-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-sm);
+        padding: var(--space-sm);
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        transition:
+          transform var(--transition-smooth),
+          box-shadow var(--transition-smooth),
+          background var(--transition-smooth),
+          border-color var(--transition-smooth);
+      }
+
+      .outcome-item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-card);
+      }
+
+      .outcome-item__number {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-antique-gold);
+        line-height: 1;
+        flex-shrink: 0;
+        width: 36px;
+        opacity: 0.7;
+      }
+
+      .outcome-item__text {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* ========================================
+       PERSON CARDS (Faculty / Committee)
+       ======================================== */
+      .persons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: var(--space-md);
+      }
+
+      .persons-grid--small {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--space-sm);
+      }
+
+      .persons-grid--patrons {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .persons-grid--centered-pair {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+        margin-top: var(--space-md);
+      }
+
+      .persons-grid--centered-pair > .person-card {
+        width: 220px;
+        flex-shrink: 0;
+      }
+
+      .persons-grid--centered-pair.persons-grid--small > .person-card {
+        width: 200px;
+      }
+
+      .person-card {
+        text-align: center;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        padding: var(--space-md) var(--space-sm);
+        box-shadow: var(--shadow-card);
+        transition:
+          transform var(--transition-smooth),
+          box-shadow var(--transition-smooth),
+          background var(--transition-smooth),
+          border-color var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .person-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-antique-gold),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity var(--transition-smooth);
+      }
+
+      .person-card:hover {
+        transform: scale(1.03);
+        box-shadow: var(--shadow-card-hover);
+      }
+
+      .person-card:hover::after {
+        opacity: 1;
+      }
+
+      /* Dark variant for dark sections */
+      .person-card--dark {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(201, 168, 76, 0.12);
+      }
+
+      .person-card--dark:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(201, 168, 76, 0.25);
+      }
+
+      .person-card__image-wrap {
+        width: 140px;
+        height: 140px;
+        margin: 0 auto var(--space-sm);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+        border: 3px solid var(--color-gold-dim);
+        transition: border-color var(--transition-smooth);
+        position: relative;
+        background: var(--color-platinum);
+      }
+
+      .person-card:hover .person-card__image-wrap {
+        border-color: var(--color-antique-gold);
+      }
+
+      .person-card__image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-smooth);
+      }
+
+      .person-card:hover .person-card__image-wrap img {
+        transform: scale(1.05);
+      }
+
+      .person-card__image-wrap--patron {
+        width: 160px;
+        height: 160px;
+        border-width: 4px;
+      }
+
+      /* Initials fallback */
+      .person-card__initials {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-navy-light);
+        color: var(--color-antique-gold);
+        font-family: var(--font-display);
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .person-card__name {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+      }
+
+      .person-card--dark .person-card__name {
+        color: var(--text-on-dark);
+      }
+
+      .person-card__title {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      .person-card--dark .person-card__title {
+        color: var(--text-on-dark-muted);
+      }
+
+      .person-card__role {
+        display: inline-block;
+        margin-top: 0.5rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-antique-gold);
+        background: var(--color-gold-dim);
+        padding: 0.2rem 0.75rem;
+        border-radius: 20px;
+      }
+
+      /* ========================================
+       SUBSECTION HEADINGS (within Faculty)
+       ======================================== */
+      .subsection-heading {
+        text-align: center;
+        margin: var(--space-lg) 0 var(--space-md);
+      }
+
+      .subsection-heading:first-of-type {
+        margin-top: 0;
+      }
+
+      .subsection-heading__title {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
+      }
+
+      .subsection-heading__rule {
+        width: 40px;
+        height: 1.5px;
+        background: var(--color-antique-gold);
+        border: none;
+        margin: 0 auto;
+      }
+
+      .section--dark .subsection-heading__title {
+        color: var(--text-on-dark);
+      }
+
+      /* ========================================
+       FOOTER
+       ======================================== */
+      .footer {
+        background: var(--color-deep-navy);
+        border-top: 1px solid var(--border-subtle);
+        padding: var(--space-xl) var(--space-md) var(--space-md);
+        color: var(--text-on-dark-muted);
+        transition: background var(--transition-smooth);
+      }
+
+      .footer__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-lg);
+        margin-bottom: var(--space-lg);
+      }
+
+      .footer__col-title {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: var(--text-on-dark);
+        margin-bottom: var(--space-sm);
+        position: relative;
+        padding-bottom: 0.75rem;
+      }
+
+      .footer__col-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: var(--color-antique-gold);
+      }
+
+      .footer__contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.88rem;
+        line-height: 1.6;
+      }
+
+      .footer__contact-item svg {
+        width: 16px;
+        height: 16px;
+        fill: var(--color-antique-gold);
+        flex-shrink: 0;
+        margin-top: 3px;
+      }
+
+      .footer__contact-item a {
+        color: var(--text-on-dark-muted);
+        transition: color var(--transition-smooth);
+      }
+
+      .footer__contact-item a:hover {
+        color: var(--color-antique-gold);
+      }
+
+      .footer__contact-label {
+        font-weight: 600;
+        color: var(--text-on-dark);
+        font-size: 0.82rem;
+        letter-spacing: 0.03em;
+      }
+
+      .footer__venue-text {
+        font-size: 0.88rem;
+        line-height: 1.8;
+      }
+
+      .footer__quick-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .footer__quick-links li a {
+        font-size: 0.88rem;
+        color: var(--text-on-dark-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition:
+          color var(--transition-smooth),
+          padding-left var(--transition-smooth);
+      }
+
+      .footer__quick-links li a::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-right: 1.5px solid var(--color-antique-gold);
+        border-top: 1.5px solid var(--color-antique-gold);
+        transform: rotate(45deg);
+        flex-shrink: 0;
+        transition: transform var(--transition-smooth);
+      }
+
+      .footer__quick-links li a:hover {
+        color: var(--color-antique-gold);
+        padding-left: 4px;
+      }
+
+      .footer__bottom {
+        border-top: 1px solid var(--border-subtle);
+        padding-top: var(--space-sm);
+        text-align: center;
+      }
+
+      .footer__bottom-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-sm);
+        flex-wrap: wrap;
+      }
+
+      .footer__logo {
+        height: 36px;
+        opacity: 0.75;
+      }
+
+      .footer__copyright {
+        font-size: 0.78rem;
+        color: var(--text-on-dark-muted);
+        opacity: 0.6;
+      }
+
+      @media (max-width: 768px) {
+        .footer__grid {
+          grid-template-columns: 1fr;
+          gap: var(--space-md);
+        }
+      }
+
+      /* ========================================
+       SCROLL REVEAL ANIMATIONS
+       ======================================== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s var(--ease-premium),
+          transform 0.7s var(--ease-premium);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+      @media (max-width: 992px) {
+        .persons-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .curriculum-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        :root {
+          --space-lg: 3rem;
+          --space-xl: 4rem;
+        }
+
+        .navbar__links {
+          position: fixed;
+          top: 76px;
+          left: 0;
+          width: 100%;
+          flex-direction: column;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(16px);
+          padding: var(--space-md);
+          gap: var(--space-sm);
+          transform: translateY(-120%);
+          transition: transform var(--transition-smooth);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar__links.active {
+          transform: translateY(0);
+        }
+
+        .navbar__toggle {
+          display: block;
+        }
+
+        .navbar__toggle.active span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .navbar__toggle.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .navbar__toggle.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .hero {
+          min-height: 70vh;
+          padding-top: calc(76px + var(--space-lg));
+        }
+
+        .persons-grid,
+        .persons-grid--small {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+          gap: var(--space-sm);
+        }
+
+        .persons-grid--patrons {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .person-card__image-wrap {
+          width: 110px;
+          height: 110px;
+        }
+
+        .person-card__image-wrap--patron {
+          width: 130px;
+          height: 130px;
+        }
+
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero__meta {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .persons-grid,
+        .persons-grid--small {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .persons-grid--patrons {
+          grid-template-columns: 1fr;
+          max-width: 300px;
+        }
+
+        .person-card {
+          padding: var(--space-sm);
+        }
+
+        .person-card__image-wrap {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- ========== NAVBAR ========== -->
+      <header class="navbar" id="navbar">
+        <div class="navbar__inner">
+          <div class="navbar__logo">
+            <img
+              src="https://vaani-au.vercel.app/Images/logo.png"
+              alt="Adamas University and AICTE Logo"
+            />
+          </div>
+          <nav>
+            <ul class="navbar__links" id="navLinks">
+              <li><a href="#about">About</a></li>
+              <li><a href="#curriculum">Curriculum</a></li>
+              <li><a href="#speakers">Faculty</a></li>
+              <li><a href="#committee">Committee</a></li>
+            </ul>
+          </nav>
+          <div class="theme-switcher">
+            <button
+              class="theme-btn"
+              id="themeSun"
+              aria-label="Switch to light mode"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
+                />
+              </svg>
+            </button>
+            <button
+              class="theme-btn"
+              id="themeMoon"
+              aria-label="Switch to dark mode"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"
+                />
+              </svg>
+            </button>
+          </div>
+          <button
+            class="navbar__toggle"
+            id="navToggle"
+            aria-label="Toggle navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ========== HERO ========== -->
+      <section class="hero" id="hero">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Adamas University</p>
+          <h1 class="hero__title">
+            40-Hour <span>IoT Full Stack</span><br />Development Course
+          </h1>
+          <p class="hero__subtitle">
+            An intensive hands-on programme spanning ESP32 hardware programming,
+            real-time streaming with Kafka, cloud deployment, and full-stack IoT
+            dashboard development.
+          </p>
+          <div class="hero__meta">
+            <span class="hero__meta-item">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"
+                />
+              </svg>
+              40 Hours
+            </span>
+            <span class="hero__meta-item">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"
+                />
+              </svg>
+              5 Weeks + Capstone
+            </span>
+            <span class="hero__meta-item">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"
+                />
+              </svg>
+              Theory + Hands-On
+            </span>
+          </div>
+          <div class="hero__meta" style="margin-top: var(--space-sm)">
+            <span class="hero__meta-item">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"
+                />
+              </svg>
+              ESP32 &middot; REST APIs &middot; Kafka &middot; MongoDB &middot;
+              Docker &middot; Cloud
+            </span>
+          </div>
+          <hr class="hero__rule" />
+        </div>
+      </section>
+
+      <!-- ========== ABOUT ========== -->
+      <section class="section section--alt" id="about">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Programme Overview</p>
+            <h2 class="section__title">Course at a Glance</h2>
+            <hr class="section__divider" />
+            <p class="section__description">
+              A comprehensive 40-hour journey through every layer of the IoT
+              stack &mdash; from device-level sensor programming on ESP32 to
+              real-time cloud dashboards powered by Kafka and MongoDB.
+            </p>
+          </div>
+          <div class="about-grid">
+            <article class="about-card reveal">
+              <div class="about-card__icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M15 7v12.97l-4.21-1.81-.79-.34-.79.34L5 19.97V7h10m4-6H8.99C7.89 1 7 1.9 7 3h12c1.1 0 2 .9 2 2v12l2 1V3c0-1.1-.9-2-2-2zm-4 4H5c-1.1 0-2 .9-2 2v16l7-3 7 3V7c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="about-card__title">Duration &amp; Format</h3>
+              <p class="about-card__text">
+                40 Hours across 5 intensive weeks of theory and hands-on labs,
+                culminating in a 1-week capstone project. Participants build
+                real systems from day one.
+              </p>
+            </article>
+            <article class="about-card reveal">
+              <div class="about-card__icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14v3H5z"
+                  />
+                </svg>
+              </div>
+              <h3 class="about-card__title">Core Technologies</h3>
+              <p class="about-card__text">
+                ESP32 microcontrollers, REST APIs with Python Flask / Node.js,
+                Apache Kafka for real-time streaming, MongoDB for time-series
+                data, Docker, and cloud deployment.
+              </p>
+            </article>
+            <article class="about-card reveal">
+              <div class="about-card__icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+              </div>
+              <h3 class="about-card__title">Hands-On Focus</h3>
+              <p class="about-card__text">
+                Every week features dedicated hands-on sessions &mdash; building
+                sensor acquisition systems, API pipelines, Kafka streaming
+                architectures, and live monitoring dashboards.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ORNAMENT ========== -->
+      <div class="ornament">&diams;</div>
+
+      <!-- ========== PATRONS ========== -->
+      <section class="section" id="patrons">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Leadership</p>
+            <h2 class="section__title">Our Patrons</h2>
+            <hr class="section__divider" />
+          </div>
+          <div class="persons-grid persons-grid--patrons">
+            <figure class="person-card reveal">
+              <div
+                class="person-card__image-wrap person-card__image-wrap--patron"
+              >
+                <img
+                  src="https://vaani-au.vercel.app/Images/SamitRay.jpeg"
+                  alt="Prof. (Dr.) Samit Ray"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Prof. (Dr.) Samit Ray</p>
+                <p class="person-card__title">
+                  Honorable Chancellor, Adamas University
+                </p>
+                <span class="person-card__role">Patron</span>
+              </figcaption>
+            </figure>
+            <figure class="person-card reveal">
+              <div
+                class="person-card__image-wrap person-card__image-wrap--patron"
+              >
+                <img
+                  src="https://vaani-au.vercel.app/Images/suranjanDas.jpg"
+                  alt="Prof. (Dr) Suranjan Das"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Prof. (Dr) Suranjan Das</p>
+                <p class="person-card__title">
+                  Honorable Vice Chancellor, Adamas University
+                </p>
+                <span class="person-card__role">Patron</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ORNAMENT ========== -->
+      <div class="ornament">&diams;</div>
+
+      <!-- ========== CURRICULUM ========== -->
+      <section class="section section--dark" id="curriculum">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Syllabus</p>
+            <h2 class="section__title">Curriculum Breakdown</h2>
+            <hr class="section__divider" />
+            <p class="section__description">
+              Six carefully structured weeks of progressive learning &mdash;
+              from foundational IoT architecture to deploying complete
+              cloud-based monitoring systems.
+            </p>
+          </div>
+
+          <div class="curriculum-grid">
+            <!-- Week 1 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 1 &mdash; 8 Hours</p>
+              <h3 class="week-card__title">IoT Foundations &amp; Hardware</h3>
+              <ul class="week-card__list">
+                <li>
+                  Introduction to IoT Architecture (Device, Edge, Cloud,
+                  Application Layers)
+                </li>
+                <li>IoT vs Embedded Systems vs Cyber-Physical Systems</li>
+                <li>ESP32 Architecture and GPIO Programming</li>
+                <li>Interfacing DHT11 / Sensors with ESP32</li>
+                <li>Reading Sensor Data and Serial Monitoring</li>
+              </ul>
+              <p class="week-card__hands-on">
+                Hands-On: Build sensor data acquisition system
+              </p>
+            </article>
+
+            <!-- Week 2 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 2 &mdash; 8 Hours</p>
+              <h3 class="week-card__title">Communication &amp; Backend</h3>
+              <ul class="week-card__list">
+                <li>IoT Communication Protocols (HTTP, MQTT, WebSockets)</li>
+                <li>REST API Development using Python Flask / Node.js</li>
+                <li>Building POST APIs for sensor data ingestion</li>
+                <li>Data validation and device authentication basics</li>
+              </ul>
+              <p class="week-card__hands-on">
+                Hands-On: ESP32 &rarr; Backend API Integration
+              </p>
+            </article>
+
+            <!-- Week 3 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 3 &mdash; 8 Hours</p>
+              <h3 class="week-card__title">Kafka Streaming &amp; MongoDB</h3>
+              <ul class="week-card__list">
+                <li>
+                  Introduction to Apache Kafka Architecture (Broker, Topic,
+                  Producer, Consumer)
+                </li>
+                <li>Why Kafka for Real-Time IoT Streaming</li>
+                <li>Setting up Kafka locally using Docker</li>
+                <li>Writing Kafka Producer and Consumer for IoT Data</li>
+                <li>MongoDB for Time-Series IoT Data</li>
+                <li>Schema Design for Sensor Data</li>
+              </ul>
+              <p class="week-card__hands-on">
+                Hands-On: ESP32 &rarr; API &rarr; Kafka &rarr; MongoDB Pipeline
+              </p>
+            </article>
+
+            <!-- Week 4 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 4 &mdash; 8 Hours</p>
+              <h3 class="week-card__title">
+                Full Stack Dashboard &amp; Real-Time
+              </h3>
+              <ul class="week-card__list">
+                <li>
+                  Frontend Basics for IoT Dashboard (HTML/React + Chart.js)
+                </li>
+                <li>Fetching data from MongoDB via Backend APIs</li>
+                <li>Real-Time Data Visualization</li>
+                <li>Detecting anomalies in streaming data</li>
+                <li>Triggering alerts for abnormal sensor values</li>
+              </ul>
+              <p class="week-card__hands-on">
+                Hands-On: Build Live IoT Monitoring Dashboard
+              </p>
+            </article>
+
+            <!-- Week 5 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 5 &mdash; 8 Hours</p>
+              <h3 class="week-card__title">Cloud Deployment &amp; DevOps</h3>
+              <ul class="week-card__list">
+                <li>
+                  Deploying IoT Backend on Cloud VM (AWS / Oracle / University
+                  Server)
+                </li>
+                <li>Dockerizing Backend and Kafka Services</li>
+                <li>Docker Compose for Multi-Service IoT Stack</li>
+                <li>Device Management and Scaling Concepts</li>
+                <li>Monitoring System Logs and Performance</li>
+              </ul>
+              <p class="week-card__hands-on">
+                Hands-On: Deploy Full IoT Stack on Cloud
+              </p>
+            </article>
+
+            <!-- Week 6 -->
+            <article class="week-card reveal">
+              <p class="week-card__number">Week 6 &mdash; Capstone Project</p>
+              <h3 class="week-card__title">Smart IoT Monitoring System</h3>
+              <ul class="week-card__list">
+                <li>Design IoT Architecture Diagram</li>
+                <li>Deploy ESP32 Sensors</li>
+                <li>Build Backend API</li>
+                <li>Integrate Kafka Streaming Pipeline</li>
+                <li>Store Data in MongoDB</li>
+                <li>Develop Real-Time Dashboard</li>
+                <li>Deploy on Cloud Server</li>
+                <li>Implement Basic Anomaly Detection</li>
+                <li>Final Project Demonstration and Viva</li>
+              </ul>
+              <p class="week-card__hands-on">Team-Based Capstone Deliverable</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== LEARNING OUTCOMES ========== -->
+      <section class="section section--alt" id="outcomes">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Results</p>
+            <h2 class="section__title">Learning Outcomes</h2>
+            <hr class="section__divider" />
+          </div>
+          <div class="outcomes-grid">
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">01</span>
+              <p class="outcome-item__text">
+                Design and implement end-to-end IoT systems from sensor to
+                cloud.
+              </p>
+            </div>
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">02</span>
+              <p class="outcome-item__text">
+                Develop real-time streaming pipelines using Apache Kafka.
+              </p>
+            </div>
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">03</span>
+              <p class="outcome-item__text">
+                Store and manage time-series data in MongoDB with optimal
+                schemas.
+              </p>
+            </div>
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">04</span>
+              <p class="outcome-item__text">
+                Build interactive IoT dashboards with real-time data
+                visualization.
+              </p>
+            </div>
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">05</span>
+              <p class="outcome-item__text">
+                Deploy full-stack IoT applications on cloud infrastructure with
+                Docker.
+              </p>
+            </div>
+            <div class="outcome-item reveal">
+              <span class="outcome-item__number">06</span>
+              <p class="outcome-item__text">
+                Understand scalability and DevOps practices in IoT systems.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ORNAMENT ========== -->
+      <div class="ornament">&diams;</div>
+
+      <!-- ========== RESOURCE PERSONS / SPEAKERS ========== -->
+      <section class="section" id="speakers">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Experts</p>
+            <h2 class="section__title">Resource Persons</h2>
+            <hr class="section__divider" />
+            <p class="section__description">
+              Distinguished faculty and industry leaders guiding participants
+              through every dimension of the IoT full-stack journey.
+            </p>
+          </div>
+
+          <div class="persons-grid">
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/RadhaTamalGoswami.jpeg"
+                  alt="Dr. Radha Tamal Goswami"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Radha Tamal Goswami</p>
+                <p class="person-card__title">Professor, Adamas University</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/Amlan%20Chakrabarti.png"
+                  alt="Dr. Amlan Chakrabarti"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Amlan Chakrabarti</p>
+                <p class="person-card__title">Professor, Calcutta University</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/RajatSubhroRoy.jpeg"
+                  alt="Mr. Rajat Subhro Roy"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Rajat Subhro Roy</p>
+                <p class="person-card__title">Director, Adamas Tech</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SouvikDas.jpeg"
+                  alt="Mr. Souvik Das"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Souvik Das</p>
+                <p class="person-card__title">
+                  IBM Garage Leader, Solutioning @IBM Consulting; AI and
+                  Generative AI Leader
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SajalSaha.jpg"
+                  alt="Dr. Sajal Saha"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Sajal Saha</p>
+                <p class="person-card__title">
+                  Associate Dean &amp; HOD (CSE), Adamas University
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/Nilanjan.jpg"
+                  alt="Dr. Nilanjan Dey"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Nilanjan Dey</p>
+                <p class="person-card__title">Professor, Techno Int. Newtown</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SurojitBose.png"
+                  alt="Dr. Surojit Bose"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Surojit Bose</p>
+                <p class="person-card__title">
+                  Associate Professor, Kusum Devi Dental Hospital
+                </p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/NiladriRoy.jpeg"
+                  alt="Mr. Niladri Roy"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Niladri Roy</p>
+                <p class="person-card__title">
+                  Enterprise Architect &amp; Product Delivery Lead, Tata
+                  Consultancy Services
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="persons-grid persons-grid--centered-pair">
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SwalpaKumarRoy.jpeg"
+                  alt="Dr. Swalpa Kumar Roy"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Swalpa Kumar Roy</p>
+                <p class="person-card__title">Assistant Professor, AGEC</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SaptarshiGoswami.png"
+                  alt="Dr. Saptarshi Goswami"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Saptarshi Goswami</p>
+                <p class="person-card__title">
+                  Assistant Professor, Banga Bashi College
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== ORNAMENT ========== -->
+      <div class="ornament">&diams;</div>
+
+      <!-- ========== COORDINATORS & COMMITTEE ========== -->
+      <section class="section section--dark" id="committee">
+        <div class="section__container">
+          <div class="section__header reveal">
+            <p class="section__eyebrow">Organisation</p>
+            <h2 class="section__title">Coordinators &amp; Committee</h2>
+            <hr class="section__divider" />
+          </div>
+
+          <!-- Coordinators -->
+          <div class="subsection-heading reveal">
+            <h3 class="subsection-heading__title">Coordinators</h3>
+            <hr class="subsection-heading__rule" />
+          </div>
+          <div class="persons-grid persons-grid--patrons">
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/SajalSaha.jpg"
+                  alt="Prof. (Dr) Sajal Saha"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Prof. (Dr) Sajal Saha</p>
+                <p class="person-card__title">Associate Dean &amp; HOD (CSE)</p>
+                <span class="person-card__role">Coordinator</span>
+              </figcaption>
+            </figure>
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/BodhiChakraborty.jpeg"
+                  alt="Dr. Bodhi Chakraborty"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Bodhi Chakraborty</p>
+                <p class="person-card__title">Assistant Professor</p>
+                <span class="person-card__role">Co-Coordinator</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <!-- Committee Members -->
+          <div class="subsection-heading reveal">
+            <h3 class="subsection-heading__title">Committee Members</h3>
+            <hr class="subsection-heading__rule" />
+          </div>
+          <div class="persons-grid persons-grid--small">
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/DebduttaPal.jpg"
+                  alt="Prof. (Dr) Debdutta Pal"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Prof. (Dr) Debdutta Pal</p>
+                <p class="person-card__title">Professor</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/PrabhatDas.jpeg"
+                  alt="Mr. Prabhat Das"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Prabhat Das</p>
+                <p class="person-card__title">Assistant Professor</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/JhilamMukherjee.jpeg"
+                  alt="Dr. Jhilam Mukherjee"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Dr. Jhilam Mukherjee</p>
+                <p class="person-card__title">Assistant Professor</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/VictorDas.JPG"
+                  alt="Mr. Victor Das"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Victor Das</p>
+                <p class="person-card__title">Assistant Professor</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/ShipluDas.jpeg"
+                  alt="Mr. Shiplu Das"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Shiplu Das</p>
+                <p class="person-card__title">Assistant Professor</p>
+              </figcaption>
+            </figure>
+          </div>
+          <div
+            class="persons-grid persons-grid--small persons-grid--centered-pair"
+          >
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <div class="person-card__initials">RM</div>
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mrs. Rupanwita Das Mahapatra</p>
+                <p class="person-card__title">Assistant Professor</p>
+              </figcaption>
+            </figure>
+
+            <figure class="person-card person-card--dark reveal">
+              <div class="person-card__image-wrap">
+                <img
+                  src="https://vaani-au.vercel.app/Images/BishalMondal.jpg"
+                  alt="Mr. Bishal Mondal"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption>
+                <p class="person-card__name">Mr. Bishal Mondal</p>
+                <p class="person-card__title">Technical Assistant</p>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== FOOTER ========== -->
+      <footer class="footer">
+        <div class="footer__inner">
+          <div class="footer__grid">
+            <!-- Contact Information -->
+            <div class="footer__col">
+              <h4 class="footer__col-title">Contact Information</h4>
+              <div class="footer__contact-item">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  />
+                </svg>
+                <div>
+                  <span class="footer__contact-label"
+                    >Prof. (Dr) Sajal Saha | Coordinator</span
+                  >
+                </div>
+              </div>
+              <div class="footer__contact-item">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  />
+                </svg>
+                <a href="tel:+919477240461">+91 9477240461</a>
+              </div>
+              <div class="footer__contact-item">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+                <a href="mailto:sajal1.saha@adamasuniversity.ac.in"
+                  >sajal1.saha@adamasuniversity.ac.in</a
+                >
+              </div>
+              <div class="footer__contact-item">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                  />
+                </svg>
+                <span>Workshop Hours: 9:00 AM &ndash; 5:30 PM</span>
+              </div>
+            </div>
+
+            <!-- Venue -->
+            <div class="footer__col">
+              <h4 class="footer__col-title">Venue</h4>
+              <p class="footer__venue-text">
+                Department of Computer Science and Engineering<br />
+                Adamas University<br />
+                Adamas Knowledge City, Barasat &ndash; Barrackpore Road,<br />
+                Jagannathpur, Kolkata,<br />
+                West Bengal 700126
+              </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer__col">
+              <h4 class="footer__col-title">Quick Links</h4>
+              <ul class="footer__quick-links">
+                <li>
+                  <a
+                    href="https://www.aucse.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Workshop Website</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://atalacademy.aicte-india.org/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Registration Portal</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://adamasuniversity.ac.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Adamas University</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Bottom bar -->
+          <div class="footer__bottom">
+            <div class="footer__bottom-inner">
+              <img
+                src="https://vaani-au.vercel.app/Images/logo.png"
+                alt="Adamas University Logo"
+                class="footer__logo"
+                loading="lazy"
+              />
+            </div>
+            <p class="footer__copyright" style="margin-top: 0.75rem">
+              &copy; 2025 IoT Full Stack Development Course. Organized by
+              Department of Computer Science and Engineering, Adamas University.
+              All Rights Reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- / page-wrapper -->
+
+    <script>
+      /* ==========================================
+       NAVBAR — Scroll behaviour
+       ========================================== */
+      const navbar = document.getElementById("navbar");
+      let lastScroll = 0;
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          const currentScroll = window.pageYOffset;
+          if (currentScroll > 60) {
+            navbar.classList.add("scrolled");
+          } else {
+            navbar.classList.remove("scrolled");
+          }
+          lastScroll = currentScroll;
+        },
+        { passive: true },
+      );
+
+      /* ==========================================
+       MOBILE NAV TOGGLE
+       ========================================== */
+      const navToggle = document.getElementById("navToggle");
+      const navLinks = document.getElementById("navLinks");
+
+      navToggle.addEventListener("click", () => {
+        navToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+
+      // Close mobile nav on link click
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navToggle.classList.remove("active");
+          navLinks.classList.remove("active");
+        });
+      });
+
+      /* ==========================================
+       INTERSECTION OBSERVER — Scroll Reveal
+       ========================================== */
+      const revealElements = document.querySelectorAll(".reveal");
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              // Stagger the animation
+              const siblings = Array.from(
+                entry.target.parentElement.querySelectorAll(".reveal"),
+              );
+              const siblingIndex = siblings.indexOf(entry.target);
+              const delay = siblingIndex * 0.1;
+
+              entry.target.style.transitionDelay = `${delay}s`;
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        },
+      );
+
+      revealElements.forEach((el) => revealObserver.observe(el));
+
+      /* ==========================================
+       DARK / LIGHT MODE TOGGLE
+       ========================================== */
+      const themeSun = document.getElementById("themeSun");
+      const themeMoon = document.getElementById("themeMoon");
+
+      // Check for saved theme preference, then system preference
+      function getPreferredTheme() {
+        const saved = localStorage.getItem("theme");
+        if (saved) return saved;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+        // Update active button
+        if (theme === "light") {
+          themeSun.classList.add("active");
+          themeMoon.classList.remove("active");
+        } else {
+          themeMoon.classList.add("active");
+          themeSun.classList.remove("active");
+        }
+      }
+
+      // Apply theme on load
+      setTheme(getPreferredTheme());
+
+      // Click sun → light mode
+      themeSun.addEventListener("click", () => setTheme("light"));
+
+      // Click moon → dark mode
+      themeMoon.addEventListener("click", () => setTheme("dark"));
+
+      // Listen for system preference changes
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            setTheme(e.matches ? "dark" : "light");
+          }
+        });
+    </script>
+  </body>
+</html>
